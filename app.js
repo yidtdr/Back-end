@@ -15,7 +15,8 @@ serv.listen(2000)
 io.on('connection', function(socket){
     console.log('Connected ----')
     var username = socket.handshake.query.username;
-    scores[username] = 0;
+    if (!scores[username]) 
+        scores[username] = 0;
     io.emit('allScores', scores);
     socket.on('increase', function(){
         scores[username]++;
