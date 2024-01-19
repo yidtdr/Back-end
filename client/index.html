@@ -10,7 +10,7 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
         let tg = window.Telegram.WebApp;
-        var username = tg.WebAppUser.username;
+        var username = tg.initDataUnsafe.user.username;
         var socket = io('/', {query: 'username=' + username});
         document.getElementById('button').disabled = false;
         document.getElementById('button').style.display = "block";
