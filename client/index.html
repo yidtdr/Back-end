@@ -1,44 +1,39 @@
 <!DOCTYPE html>
 <html>
 <body>
-    <div id="startGame">
-        <input id="username" type="text" placeholder="Введите ваше имя">
-        <button id="start">Начать игру</button>
-    </div>
     <h1 id="userTitle" style="display: none;"></h1>
     <h1 id="score" style="display: none;">0</h1>
     <button id="button" disabled style="display: none;">Нажми меня</button>
     <ul id="allScores" style="display: none;"></ul>
 
     <script src="/socket.io/socket.io.js"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
-        document.getElementById('start').onclick = function() {
-            var username = document.getElementById('username').value;
-            var socket = io('/', {query: 'username=' + username});
-            document.getElementById('button').disabled = false;
-            document.getElementById('button').style.display = "block";
-            document.getElementById('score').style.display = "block";
-            document.getElementById('allScores').style.display = "block";
-            document.getElementById('userTitle').style.display = "block";
-            document.getElementById('userTitle').innerHTML = username;
-            document.getElementById('startGame').style.display = "none";
+        let tg = window.Telegram.WebApp;
+        var username = tg.WebAppUser.username;
+        var socket = io('/', {query: 'username=' + username});
+        document.getElementById('button').disabled = false;
+        document.getElementById('button').style.display = "block";
+        document.getElementById('score').style.display = "block";
+        document.getElementById('allScores').style.display = "block";
+        document.getElementById('userTitle').style.display = "block";
+        document.getElementById('userTitle').innerHTML = username;
 
-            document.getElementById('button').onclick = function() {
-                socket.emit('increase');
-            };
-            socket.on('score', function(score) {
-                document.getElementById('score').innerHTML = score;
-            });
-            socket.on('allScores', function(scores) {
-                var allScores = document.getElementById('allScores');
-                allScores.innerHTML = '';
-                for (var user in scores) {
-                    var li = document.createElement('li');
-                    li.textContent = user + ': ' + scores[user];
-                    allScores.appendChild(li);
-                }
-            });
+        document.getElementById('button').onclick = function() {
+            socket.emit('increase');
         };
+        socket.on('score', function(score) {
+            document.getElementById('score').innerHTML = score;
+        });
+        socket.on('allScores', function(scores) {
+            var allScores = document.getElementById('allScores');
+            allScores.innerHTML = '';
+            for (var user in scores) {
+                var li = document.createElement('li');
+                li.textContent = user + ': ' + scores[user];
+                allScores.appendChild(li);
+            }
+        });
     </script>
 </body>
 </html>
