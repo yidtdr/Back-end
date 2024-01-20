@@ -4,7 +4,7 @@ var serv = require('http').Server(app)
 var io = require('socket.io')(serv, {})
 
 var scores = {};
-//abema
+//abemafr4fr
 app.get('/', function(req,res) {
     res.sendFile(__dirname + '/client/index.html')
 })
