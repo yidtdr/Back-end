@@ -7,7 +7,7 @@ var io = require('socket.io')(serv, {})
 let DEBUG = true;
 
 var players = {};
-
+//gcct
 if (DEBUG)
 {
     app.get('/', function(req,res) {
