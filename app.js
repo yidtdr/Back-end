@@ -18,6 +18,7 @@ io.on('connection', function(socket){
     if (!scores[username]) 
         scores[username] = 0;
     io.emit('allScores', scores);
+    socket.emit('score', scores[username]);
     socket.on('increase', function(){
         scores[username]++;
         socket.emit('score', scores[username]);
