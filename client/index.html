@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html>
+<head>
+    <link rel="stylesheet" href="/client/style.css">
+</head>
 <body>
     <h1 id="userTitle" style="display: none;"></h1>
     <h1 id="score" style="display: none;">0</h1>
@@ -40,6 +43,7 @@
 
             for(let i = 0; i < shop._amount; i++) {
                 let button = document.createElement('button');
+                button.className = 'shopButton';
                 button.innerHTML = shop._itemList[i]._name + ': ' + shop._itemList[i]._price;
                 button.addEventListener('click', function() {
                     socket.emit('buyUpgrade', i);
