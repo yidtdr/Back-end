@@ -13,3 +13,33 @@
     font-weight: 600;
     src: url("/client/assets/fonts/Montserrat-SemiBold.ttf");
   }
+
+html, body{
+    width: 420px;
+    height: 639.2px;
+    padding: 0;
+    overflow: hidden;
+    @media (max-width: 419.9px) {
+        width: 100%;
+    }
+    @media (max-height: 639px) {
+        height: 100%;
+    }
+}
+
+body{
+    background-image: url("./images/background-image.jfif");
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: 'Inter';
+    font-weight: 600;
+    font-size: 100%;
+}   
+
+#userTitle{
+    font-size: 100%;
+    text-align: center;
+    background-color: rgba(191, 146, 255, 0.598);
+    margin: 0 auto;
+    width: fit-content;
+}
