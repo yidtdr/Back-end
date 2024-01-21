@@ -19,6 +19,12 @@ html, body{
     height: 639.2px;
     padding: 0;
     overflow: hidden;
+    @media (max-width: 419.9px) {
+        width: 100%;
+    }
+    @media (max-height: 639px) {
+        height: 100%;
+    }
 }
 
 body{
