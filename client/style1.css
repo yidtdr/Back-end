@@ -1,0 +1,15 @@
+@font-face {
+    font-family: Inter;
+    font-weight: 400;
+    src: url("/client/fonts/Inter-Regular.ttf");
+  }
+  @font-face {
+    font-family: Montserrat;
+    font-weight: 500;
+    src: url("/client/fonts/Montserrat-Medium.ttf");
+  }
+  @font-face {
+    font-family: Montserrat;
+    font-weight: 600;
+    src: url("/client/assets/fonts/Montserrat-SemiBold.ttf");
+  }
