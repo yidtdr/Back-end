@@ -26,12 +26,3 @@ html, body{
         height: 100%;
     }
 }
-
-body{
-    background-image: url("./images/background-image.jfif");
-    background-repeat: no-repeat;
-    background-size: cover;
-    font-family: 'Inter';
-    font-weight: 600;
-    font-size: 100%;
-}   
