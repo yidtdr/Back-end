@@ -23,6 +23,11 @@ class Player{
         this._perClickInc += perClickBonus;
         this._perSecondInc += perSecBonus;
     }
+
+    timerIncrement()
+    {
+        this._score+=this._perSecondInc;
+    }
 }
 
 module.exports = Player

@@ -54,4 +54,9 @@ io.on('connection', function(socket){
         players[username].sendCurrentState(socket);
         io.emit('allScores', players);
     });
+
+    setInterval(() => {
+        players[username].timerIncrement();
+        players[username].sendCurrentState(socket);
+    }, 1000);
 });
