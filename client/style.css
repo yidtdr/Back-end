@@ -15,8 +15,8 @@
   }
 
 html, body{
-    width: 99%;
-    height: 99%;
+    width: 420px;
+    height: 639.2px;
     padding: 0;
     overflow: hidden;
 }
@@ -88,4 +88,8 @@ body{
     background-color: rgba(143, 203, 255, 0.747);
     border: 0;
     border-radius: 20px;
+}
+
+::-webkit-scrollbar{
+    display: none;
 }

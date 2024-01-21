@@ -6,7 +6,7 @@ var app = express()
 var serv = require('http').Server(app)
 var io = require('socket.io')(serv, {})
 
-let DEBUG = true;
+let DEBUG = false;
 
 var players = {};
 var shop = new Shop();
