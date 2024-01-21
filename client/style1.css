@@ -1,0 +1,101 @@
+@font-face {
+    font-family: Inter;
+    font-weight: 400;
+    src: url("/client/fonts/Inter-Regular.ttf");
+  }
+  @font-face {
+    font-family: Montserrat;
+    font-weight: 500;
+    src: url("/client/fonts/Montserrat-Medium.ttf");
+  }
+  @font-face {
+    font-family: Montserrat;
+    font-weight: 600;
+    src: url("/client/assets/fonts/Montserrat-SemiBold.ttf");
+  }
+
+html, body{
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    overflow: hidden;
+    @media (max-width: 419.9px) {
+        width: 100%;
+    }
+    @media (max-height: 639px) {
+        height: 100%;
+    }
+}
+
+body{
+    background-image: url("./images/background-image.jfif");
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: 'Inter';
+    font-weight: 600;
+    font-size: 100%;
+}   
+
+#userTitle{
+    font-size: 100%;
+    text-align: center;
+    background-color: rgba(191, 146, 255, 0.598);
+    margin: 0 auto;
+    width: fit-content;
+}
+
+#score{
+    font-size: 150%;
+    margin-top: 30%;
+    text-align: center;
+    padding: 30px;
+    background-color: rgba(240, 248, 255, 0.888);
+}
+
+#button{
+    border: 0;
+    background-color: rgba(240, 248, 255, 0.76);
+    border-radius: 20px;
+    width: 60%;
+    margin: 0 auto;
+    height: 8%;
+    font-size: 150%;
+    font-family: 'Inter';
+    font-weight: 800;
+    margin-top: 10%;
+    margin-bottom: 10%;
+}
+
+#allScores{
+    text-align: center;
+    background-color: rgba(240, 248, 255, 0.589);
+    margin: 0 auto;
+    width: 75%;
+    height: 20%;
+    overflow: scroll;
+}
+
+#shop
+{
+    margin-top: 5%;
+    display: flex;
+    flex-direction: column;
+    height: 20%;
+    overflow: scroll;
+}
+
+.shopButton{
+    margin: 0 auto;
+    width: 80%;
+    height: 20%;
+    font-size: 100%;
+    font-family: 'Inter';
+    font-weight: 800;   
+    background-color: rgba(143, 203, 255, 0.747);
+    border: 0;
+    border-radius: 20px;
+}
+
+::-webkit-scrollbar{
+    display: none;
+}
