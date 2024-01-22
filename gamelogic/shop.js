@@ -2,7 +2,13 @@ class Shop{
     constructor()
     {
         this._amount = 0;
-        this._itemList = {};
+        this._itemList = [];
+    }
+
+    init(shop)
+    {
+        this._amount = shop._amount;
+        this._itemList = shop._itemList;
     }
 
     appendItem(item)
@@ -23,10 +29,6 @@ class Shop{
         player.boughtUpgrade(this._itemList[itemId]._price,
          (this._itemList[itemId]._perClickBonus? this._itemList[itemId]._perClickBonus : 0),
          (this._itemList[itemId]._perSecondBonus ? this._itemList[itemId]._perSecondBonus : 0));
-        console.log(this._itemList[itemId])
-        console.log(this._itemList[itemId]._price,
-            (this._itemList[itemId]._perClickBonus? this._itemList[itemId]._perClickBonus : 0),
-            (this._itemList[itemId]._perSecondBonus ? this._itemList[itemId]._perSecondBonus : 0));
         this._itemList[itemId]._level++;
     }
 }

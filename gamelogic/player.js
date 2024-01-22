@@ -5,11 +5,13 @@ class Player{
         this._score = 0;
         this._perClickInc = 1;
         this._perSecondInc = 0;
+        this._scoreTotal = 0;
     }
 
     incrementScore()
     {
-        this._score+=this._perClickInc;
+        this._score += this._perClickInc;
+        this._scoreTotal += this._perClickInc;
     }
 
     sendCurrentState(socket)
@@ -26,7 +28,8 @@ class Player{
 
     timerIncrement()
     {
-        this._score+=this._perSecondInc;
+        this._score += this._perSecondInc;
+        this._scoreTotal += this._perSecondInc;
     }
 }
 

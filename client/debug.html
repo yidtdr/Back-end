@@ -1,31 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="/client/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
 </head>
 <body>
+    <input type="text" id="usernameInput" placeholder="username" />
+    <button id="startGame">Start</button>
     <h1 id="userTitle" style="display: none;"></h1>
     <h1 id="score" style="display: none;">0</h1>
     <button id="button" disabled style="display: none;">Нажми меня</button>
     <ul id="allScores" style="display: none;"></ul>
-    <div class="shop" id="shop">
+    <div id="stats" style="display: none;">
+        <h3 id="scorePerClick"></h3>
+        <h3 id="scorePerSecond"></h3>
+        <h3 id="scoreTotal"></h3>
+    </div>
+    <div class="shop" id="shop" style="display: none;">
     </div>
     <script src="/socket.io/socket.io.js"></script>
     <script>
-        var username = Math.random();
+        document.getElementById('startGame').onclick = (function()
+        {var username = document.getElementById('usernameInput').value;
         var socket = io('/', {query: 'username=' + username});
         document.getElementById('button').disabled = false;
         document.getElementById('button').style.display = "block";
         document.getElementById('score').style.display = "block";
         document.getElementById('allScores').style.display = "block";
         document.getElementById('userTitle').style.display = "block";
+        document.getElementById('shop').style.display = "block";
+        document.getElementById('stats').style.display = "block";
+
         document.getElementById('userTitle').innerHTML = username;
 
         document.getElementById('button').onclick = function() {
             socket.emit('increase');
         };
         socket.on('score', function(player) {
-            document.getElementById('score').innerHTML = player._score;
+            document.getElementById('score').innerHTML = "Очков: " + player._score;
+            document.getElementById('scorePerClick').innerText = "Очков за клик: " + player._perClickInc;
+            document.getElementById('scorePerSecond').innerText = "Очков в секунду: " + player._perSecondInc;
+            document.getElementById('scoreTotal: ').innerText = "Очков всего: " + player._scoreTotal;
         });
         socket.on('allScores', function(players) {
             var allScores = document.getElementById('allScores');
@@ -55,7 +69,7 @@
                 // Append the button to the body (or any other container element)
                 shopDiv.appendChild(button);
             }
-        });
+        });})
     </script>
 </body>
 </html>
