@@ -6,6 +6,23 @@ class Player{
         this._perClickInc = 1;
         this._perSecondInc = 0;
         this._scoreTotal = 0;
+        this._connected = false;
+        this._guild = "none";
+    }
+
+    alreadyConnected()
+    {
+        return this._connected;
+    }
+
+    connected()
+    {
+        this._connected = true;
+    }
+
+    disconnected()
+    {
+        this._connected = false;
     }
 
     incrementScore()
@@ -29,7 +46,7 @@ class Player{
     timerIncrement()
     {
         this._score += this._perSecondInc;
-        this._scoreTotal += this._perSecondInc;
+        this._scoreTotal += this._perSecondInc; 
     }
 }
 

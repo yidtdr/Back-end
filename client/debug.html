@@ -17,6 +17,11 @@
     </div>
     <div class="shop" id="shop" style="display: none;">
     </div>
+    <input type="text" id="guildnameInput" placeholder="username" />
+    <button id="createGuild">Create Guild</button>
+    <button id="showGuilds">Shov avalible guilds</button>
+    <div id="guilds">
+    </div>
     <script src="/socket.io/socket.io.js"></script>
     <script>
         document.getElementById('startGame').onclick = (function()
@@ -35,18 +40,47 @@
         document.getElementById('button').onclick = function() {
             socket.emit('increase');
         };
+
+        document.getElementById('createGuild').onclick = function() {
+            socket.emit('createGuild', document.getElementById('guildnameInput').value);
+        };
+
+        document.getElementById('showGuilds').onclick = function() {
+            socket.emit('allGuilds');
+        };
+
+        socket.on('allGuilds', function(guilds) {
+            document.getElementById('guilds').innerHTML = ''
+            for(let guild in guilds) {
+
+                let text = document.createElement('h5');
+                text.innerText = "Guild name: " + guild + " Players: " + guilds[guild]._playerAmount + "/ 30";
+
+                let button = document.createElement('button');
+                button.className = 'guildJoin';
+                button.innerText = 'Join Guild';
+
+                button.addEventListener('click', function() {
+                    socket.emit('guildJoin', guild);
+                });
+
+                document.getElementById('guilds').appendChild(text);
+                document.getElementById('guilds').appendChild(button);
+            }
+        })
+
         socket.on('score', function(player) {
             document.getElementById('score').innerHTML = "Очков: " + player._score;
             document.getElementById('scorePerClick').innerText = "Очков за клик: " + player._perClickInc;
             document.getElementById('scorePerSecond').innerText = "Очков в секунду: " + player._perSecondInc;
             document.getElementById('scoreTotal: ').innerText = "Очков всего: " + player._scoreTotal;
         });
-        socket.on('allScores', function(players) {
+        socket.on('allScores', function(games) {
             var allScores = document.getElementById('allScores');
             allScores.innerHTML = '';
-            for (var user in players) {
+            for (var user in games) {
                 var li = document.createElement('li');
-                li.textContent = user + ': ' + players[user]._score;
+                li.textContent = user + ': ' + games[user]._player._score;
                 allScores.appendChild(li);
             }
         });

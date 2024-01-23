@@ -1,8 +1,8 @@
 class Shop{
-    constructor()
+    constructor(amount, itemList)
     {
-        this._amount = 0;
-        this._itemList = [];
+        this._amount = amount;
+        this._itemList = itemList;
     }
 
     init(shop)
