@@ -1,18 +1,17 @@
-const { readFileSync } = require('fs')
-const Player = require('./gamelogic/player.js')
-const UserEvents = require('./console/userEvents.js')
-const Shop = require('./gamelogic/shop.js')
-const Game = require('./gamelogic/game.js')
-const Guild = require('./gamelogic/guild.js')
-const {Upgrade, ClickUpgrade, PerSecondUpgrade} = require('./gamelogic/upgrades.js')
-const GameLogic = require('./gamelogic/gamelogic.js')
+//          LIBRARY IMPORTS
 var express = require('express')
 var app = express()
 var serv = require('http').Server(app)
 var io = require('socket.io')(serv, {})
 
+//          GAME LOGIC CLASS IMPORT
+const GameLogic = require('./gamelogic/gamelogic.js')
+
+
+//  SET DEBUG TO FALSE BEFORE PUSH
 let DEBUG = true;
 
+//          CLIENT FILES GIVING
 if (DEBUG)
 {
     app.get('/', function(req,res) {
@@ -27,14 +26,15 @@ else
 app.use('/client', express.static(__dirname + '/client'))
 serv.listen(2000)
 
+//          GAME LOGIC INITIALIZATION
 gl = new GameLogic();
+
 
 io.on('connection', function(socket){
 
 //          CONNECTION MANAGEMENT
 
     var username = socket.handshake.query.username;
-    UserEvents.logConnected(username);
     if (gl.onUserConnect(username))
     {
         gl._games[username]._player.connected();

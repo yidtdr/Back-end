@@ -21,7 +21,6 @@ class GameLogic{
     }
 
 //          [PLAYER MANAGEMENT]
-
     onUserConnect(username)
     {
         if (!this._games[username])
@@ -31,11 +30,13 @@ class GameLogic{
                 new Player(username),
                 this._shop
             )
+            UserEvents.logConnected(username);
             return true;
         }
 
         if (this._games[username]._player.alreadyConnected())
         {
+            UserEvents.logConnected(username);
             return false;
         }
 
@@ -43,7 +44,6 @@ class GameLogic{
     }
 
 //          [SCORE MANAGEMENT]
-
     onUserDisconnect(username, socket)
     {
         UserEvents.logDisconnected(username);
@@ -70,7 +70,6 @@ class GameLogic{
     }
 
 //          [GUILD MANAGEMENT]
-
     sendAllGuilds(socket)
     {
         socket.emit('allGuilds', this._guilds);
@@ -107,7 +106,6 @@ class GameLogic{
     }
 
 //          [SHOP MANAGEMENT]
-
     sendShop(username, socket)
     {
         socket.emit('shop', this._games[username]._shop);

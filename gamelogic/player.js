@@ -10,6 +10,7 @@ class Player{
         this._guild = "none";
     }
 
+//          CONNECTION MANAGEMENT
     alreadyConnected()
     {
         return this._connected;
@@ -25,22 +26,16 @@ class Player{
         this._connected = false;
     }
 
-    incrementScore()
-    {
-        this._score += this._perClickInc;
-        this._scoreTotal += this._perClickInc;
-    }
-
     sendCurrentState(socket)
     {
         socket.emit('score', this);
     }
 
-    boughtUpgrade(price, perClickBonus, perSecBonus)
+//          SCORE MANAGEMENT
+    incrementScore()
     {
-        this._score -= price;
-        this._perClickInc += perClickBonus;
-        this._perSecondInc += perSecBonus;
+        this._score += this._perClickInc;
+        this._scoreTotal += this._perClickInc;
     }
 
     timerIncrement()
@@ -49,6 +44,15 @@ class Player{
         this._scoreTotal += this._perSecondInc; 
     }
 
+//          UPGRADES MANAGEMENT
+    boughtUpgrade(price, perClickBonus, perSecBonus)
+    {
+        this._score -= price;
+        this._perClickInc += perClickBonus;
+        this._perSecondInc += perSecBonus;
+    }
+
+//          GUILDS MANAGEMENT
     isInGuild()
     {
         return (this._guild == null)
