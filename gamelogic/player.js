@@ -48,6 +48,16 @@ class Player{
         this._score += this._perSecondInc;
         this._scoreTotal += this._perSecondInc; 
     }
+
+    isInGuild()
+    {
+        return (this._guild == null)
+    }
+
+    isInThisGuild(guildName)
+    {
+        return (this._guild == guildName)
+    }
 }
 
 module.exports = Player

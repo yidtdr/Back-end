@@ -20,6 +20,7 @@ class Guild{
             if (this._playerList[user] == username)
             {
                 delete this._playerList[user];
+                return;
             }
         }
     }

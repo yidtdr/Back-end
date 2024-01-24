@@ -5,6 +5,7 @@ const Shop = require('./gamelogic/shop.js')
 const Game = require('./gamelogic/game.js')
 const Guild = require('./gamelogic/guild.js')
 const {Upgrade, ClickUpgrade, PerSecondUpgrade} = require('./gamelogic/upgrades.js')
+const GameLogic = require('./gamelogic/gamelogic.js')
 var express = require('express')
 var app = express()
 var serv = require('http').Server(app)
@@ -26,86 +27,67 @@ else
 app.use('/client', express.static(__dirname + '/client'))
 serv.listen(2000)
 
-var itemList = {};
-// INSERT VALUES HERE //
-
-itemList[0] = new ClickUpgrade("Cursor", 0, 10, 150, 1);
-itemList[1] = new PerSecondUpgrade("Auto-clicker", 0, 10, 250, 1);
-itemList[0].setNextUpgrade(new ClickUpgrade("Super Cursor", 1, 15, 1500, 5))
-
-// INSERT VALUES HERE //
-
-var games = {};
-var guilds = {};
+gl = new GameLogic();
 
 io.on('connection', function(socket){
+
+//          CONNECTION MANAGEMENT
+
     var username = socket.handshake.query.username;
     UserEvents.logConnected(username);
-    if (!games[username]) 
-        games[username] = new Game(
-            "default",
-            new Player(username),
-            new Shop(
-                3, itemList
-            )
-    )
-    if (games[username]._player.alreadyConnected())
+    if (gl.onUserConnect(username))
     {
-        return;
+        gl._games[username]._player.connected();
+        gl._games[username]._player.sendCurrentState(socket);
+        gl.sendShop(username, socket);
+
+//          SERVER EVENTS MANAGEMENT
+
+
+//              SHOP MANAGEMENT
+        socket.on('buyUpgrade', function(id){
+            gl.buyUpgrade(username, socket, id);
+        })
+
+        socket.on('getShop', function() {
+            gl.sendShop(username, socket);
+        })
+
+//              GUILDS MANAGEMENT
+
+        socket.on('joinGuild', function(guildName){
+            gl.onGuildJoin(username, guildName, socket);
+        });
+
+        socket.on('createGuild', function(guildName){
+            gl.onGuildCreate(username, guildName, socket);
+        });
+
+        socket.on('allGuilds', function(){
+            gl.sendAllGuilds(socket);
+        });
+
+//              PLAYER SCORE MANAGEMENT
+
+        socket.on('increase', function(){
+            gl.onIncrease(username, socket);
+        });
+
+        setInterval(() => {
+            gl.onTimer(username, socket);
+        }, 1000);
+
+//          DISCONNECTION MANAGEMENT
+
+        socket.on('disconnect', () => {
+            gl.onUserDisconnect(username, socket);
+        })
     }
     else
     {
-        games[username]._player.connected();
-        io.emit('allScores', games);    // FIX ASAP - IT IS NOT CORRECT TO GIVE ALL PLAYERS DATA, UNSECURE, INSTEAD MAKE MAP OF TOP PLAYERS
-        games[username]._player.sendCurrentState(socket);
-        socket.emit('shop', games[username]._shop);
-        socket.on('buyUpgrade', function(id){
-            if (games[username]._shop.validate(games[username]._player, id) && (games[username]._shop._itemList[id].validate()))
-            {
-                games[username]._shop.bought(games[username]._player, id);
-                games[username]._shop._itemList[id].onUpgrade();
-                socket.emit('shop', games[username]._shop);
-                games[username]._player.sendCurrentState(socket);
-                games[username]._player.sendCurrentState(socket);
-                io.emit('allScores', games); // FIX ASAP
-            }
-        })
-        socket.on('increase', function(){
-            games[username]._player.incrementScore();
-            games[username]._player.sendCurrentState(socket);
-            io.emit('allScores', games); // FIX ASAP
-        });
-        socket.on('joinGuild', function(guildName){
-            games[username]._player._guild = guildName;
-            guilds[guildName].playerJoined(username);
-            games[username]._player.sendCurrentState(socket);
-        })
-        socket.on('createGuild', function(guildName){
-            games[username]._player._guild = guildName;
-            guilds[guildName] = new Guild(guildName);
-            guilds[guildName].playerJoined(username);
-            games[username]._player.sendCurrentState(socket);
-            io.emit('allGuilds', guilds);
-        })
-        socket.on('allGuilds', function()
-        {
-            socket.emit('allGuilds', guilds)
-        });
-        setInterval(() => {
-            if (games[username]._player.alreadyConnected())
-            {
-                games[username]._player.timerIncrement(); 
-                games[username]._player.sendCurrentState(socket);
-                io.emit('allScores', games); // FIX ASAP
-            }
-            else{
-                return;
-            }
-        }, 1000);
-        socket.on('disconnect', () => {
-            UserEvents.logDisconnected(username);
-            games[username]._player.disconnected();
-            socket.disconnect();
-        })
+//          IF USER GETS THERE -> HE IS TRYING TO ACCESS GAME WITH 1 ACCOUNT
+//                      BUT MULTIPLE DEVICES, WHICH IS ILLEGAL
+//          TODO: WARNING SYSTEM TO PREVENT USERS TRYING TO CHEAT
+        socket.disconnect();
     }
 });

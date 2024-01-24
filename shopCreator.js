@@ -14,4 +14,3 @@ for (let i in itemList)
 {
     object.appendItem(itemList[i]);
 }
-
