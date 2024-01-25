@@ -36,14 +36,13 @@ class GameLogic{
 
         if (this._games[username]._player.alreadyConnected())
         {
-            UserEvents.logConnected(username);
             return false;
         }
 
+        UserEvents.logConnected(username);
         return true;
     }
 
-//          [SCORE MANAGEMENT]
     onUserDisconnect(username, socket)
     {
         UserEvents.logDisconnected(username);
@@ -51,6 +50,7 @@ class GameLogic{
         socket.disconnect();
     }
 
+//          [SCORE MANAGEMENT]
     onTimer(username, socket)
     {
         if (this._games[username]._player.alreadyConnected())
