@@ -115,7 +115,7 @@ class GameLogic{
     {
         if (this._games[username].valudateBuy(id))
         {
-            this._games[username]._shop.bought(games[username]._player, id);
+            this._games[username]._shop.bought(this._games[username]._player, id);
             this._games[username]._shop._itemList[id].onUpgrade();
             this.sendShop(username, socket);
             this._games[username]._player.sendCurrentState(socket);
