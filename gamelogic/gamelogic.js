@@ -53,13 +53,13 @@ class GameLogic{
 //          [SCORE MANAGEMENT]
     onTimer(username, socket)
     {
-        if (this._games[username]._player.alreadyConnected())
+        if (this._games[username]._player.alreadyConnected() && socket.connected)
             {
                 this._games[username]._player.timerIncrement(); 
                 this._games[username]._player.sendCurrentState(socket);
             }
             else{
-                return;
+                return true;
             }
     }
 
