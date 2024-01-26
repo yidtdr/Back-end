@@ -4,7 +4,7 @@ var app = express()
 var serv = require('http').Server(app)
 var io = require('socket.io')(serv, {
     cors: {
-      origin: "http://localhost:3000"
+      origin: "*"
     }})
 
 //          GAME LOGIC CLASS IMPORT
